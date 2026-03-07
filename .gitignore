@@ -41,3 +41,7 @@
 *.dwo
 
 .vscode/
+
+output/
+
+build/
