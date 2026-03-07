@@ -1,0 +1,25 @@
+cmake_minimum_required(VERSION 3.10)
+
+project(MetodosNumericos2)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_executable(main 
+    main.cpp
+    derivadaLim/src/derivadaLimBw.cpp
+    derivadaLim/src/derivadaLimCt.cpp
+    derivadaLim/src/derivadaLimFw.cpp
+)
+
+target_include_directories(main PRIVATE 
+    derivadaLim/include
+)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/output)
+
+if(MSVC)
+    target_compile_options(main PRIVATE /W4)
+else()
+    target_compile_options(main PRIVATE -Wall -Wextra)
+endif()
