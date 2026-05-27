@@ -19,7 +19,10 @@
 #include <cmath>
 #include <stdexcept>
 #include <sstream>
+
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
 // Core
 #include "core/FunctionParser.hpp"
@@ -793,8 +796,10 @@ static void splash()
 
 int main()
 {
+#ifdef _WIN32
     SetConsoleOutputCP(65001);
     SetConsoleCP(65001);
+#endif
 
     splash();
     while (true)

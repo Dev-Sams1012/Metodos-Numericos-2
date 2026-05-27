@@ -42,7 +42,9 @@ add_executable(numerical_methods
     ${SOURCES}
 )
 
-target_link_options(numerical_methods PRIVATE -mconsole)
+if(MINGW)
+    target_link_options(numerical_methods PRIVATE -mconsole)
+endif()
 
 target_include_directories(numerical_methods PRIVATE
     ${CMAKE_SOURCE_DIR}/include
