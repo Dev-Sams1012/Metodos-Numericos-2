@@ -16,6 +16,12 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/beltoforion/muparser.git
     GIT_TAG        v2.3.4
 )
+
+# === A SOLUÇÃO ESTÁ AQUI ===
+# Força a compilação como biblioteca estática para evitar erro de DLL no Windows
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+# ===========================
+
 set(ENABLE_SAMPLES  OFF CACHE BOOL "" FORCE)
 set(ENABLE_OPENMP   OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(muparser)
