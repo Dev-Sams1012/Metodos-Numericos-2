@@ -593,6 +593,47 @@ static void menuSVD()
     r.U.print("", 12, 6);
     std::cout << "\n  Matriz V:\n";
     r.V.print("", 12, 6);
+
+    // ==========================================================
+    // NOVA SEÇÃO: Reconstrução e Verificação M ≈ U * Σ * Vᵀ
+    // ==========================================================
+    if (r.rank > 0)
+    {
+        // 1. Monta a matriz diagonal Σ (rank x rank) inicializada com zeros
+        Matrix Sigma(r.rank, r.rank, 0.0);
+        for (int i = 0; i < r.rank; ++i)
+        {
+            Sigma(i, i) = r.singularValues[i];
+        }
+
+        // 2. Calcula o produto U * Σ * Vᵀ
+        Matrix Reconstructed = r.U * Sigma * r.V.transpose();
+
+        std::cout << "\n  Matriz Original M:\n";
+        A.print("", 12, 6);
+
+        std::cout << "\n  Matriz Reconstruída (U * Σ * Vᵀ):\n";
+        Reconstructed.print("", 12, 6);
+
+        // 3. Calcula o erro máximo absoluto para provar a precisão
+        double maxError = 0.0;
+        for (int i = 0; i < m; ++i)
+        {
+            for (int j = 0; j < n; ++j)
+            {
+                double err = std::abs(A(i, j) - Reconstructed(i, j));
+                if (err > maxError)
+                {
+                    maxError = err;
+                }
+            }
+        }
+        
+        // Exibe o erro em notação científica para facilitar a visualização de valores pequenos
+        std::cout << "\n  Erro Máximo Absoluto (|M - UΣVᵀ|): " 
+                  << std::scientific << std::setprecision(4) << maxError << "\n";
+    }
+
     clearLine();
 }
 
