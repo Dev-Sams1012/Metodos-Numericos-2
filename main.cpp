@@ -1,15 +1,4 @@
-// =============================================================================
-// main.cpp
-// Interface de linha de comando (CLI) para explorar todos os métodos numéricos.
-//
-// Estrutura de menus:
-//   [1] Diferenciação Numérica
-//   [2] Integração Numérica
-//   [3] Autovalores e Autovetores
-//   [4] Problemas de Valor Inicial (PVI)
-//   [5] Problemas de Valor de Contorno (PVC) — Diferenças Finitas  ← NOVO
-//   [0] Sair
-// =============================================================================
+
 
 #include <iostream>
 #include <iomanip>
@@ -26,45 +15,34 @@
 #include <windows.h>
 #endif
 
-// Core
 #include "core/FunctionParser.hpp"
 #include "core/SystemParser.hpp"
 
-// Diferenciação
 #include "differentiation/FirstDerivative.hpp"
 #include "differentiation/SecondDerivative.hpp"
 #include "differentiation/ThirdDerivative.hpp"
 
-// Integração
 #include "integration/NewtonCotes.hpp"
 #include "integration/GaussLegendre.hpp"
 #include "integration/SpecialGauss.hpp"
 #include "integration/SingularityStrategies.hpp"
 
-// Autovalores
 #include "eigenvalues/PowerMethod.hpp"
 #include "eigenvalues/HouseholderMethod.hpp"
 #include "eigenvalues/JacobiMethod.hpp"
 #include "eigenvalues/QRMethod.hpp"
 #include "eigenvalues/SVDMethod.hpp"
 
-// Problemas de Valor Inicial (PVI)
 #include "ivp/EulerMethod.hpp"
 #include "ivp/RungeKutta.hpp"
 #include "ivp/AdamsBashforth.hpp"
 
-// Problemas de Valor de Contorno (PVC) — Diferenças Finitas
 #include "bvp/FDMethod1D.hpp"
 #include "bvp/FDMethod2D.hpp"
 
-// Utils
 #include "Matrix.hpp"
 
 using namespace nm;
-
-// =============================================================================
-// Helpers de UI
-// =============================================================================
 
 static void clearLine()
 {
@@ -195,10 +173,6 @@ static void printResult(const std::string &method, const std::string &label, dou
     clearLine();
 }
 
-// =============================================================================
-// MÓDULO 1 — DIFERENCIAÇÃO NUMÉRICA
-// =============================================================================
-
 static void menuPrimeiraDerivada()
 {
     subheader("Derivada Primeira f'(x)");
@@ -306,10 +280,6 @@ static void menuDiferenciacao()
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 }
-
-// =============================================================================
-// MÓDULO 2 — INTEGRAÇÃO NUMÉRICA
-// =============================================================================
 
 static void menuNewtonCotesFechado()
 {
@@ -454,10 +424,6 @@ static void menuIntegracao()
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 }
-
-// =============================================================================
-// MÓDULO 3 — AUTOVALORES E AUTOVETORES
-// =============================================================================
 
 static Matrix lerMatrizQuadrada(const std::string &label = "A")
 {
@@ -618,7 +584,8 @@ static void menuSVD()
             for (int j = 0; j < n; ++j)
             {
                 double err = std::abs(A(i, j) - Reconstructed(i, j));
-                if (err > maxError) maxError = err;
+                if (err > maxError)
+                    maxError = err;
             }
 
         std::cout << "\n  Erro Máximo Absoluto (|M - UΣVᵀ|): "
@@ -642,13 +609,27 @@ static void menuAutovalores()
         {
             switch (op)
             {
-            case 1: menuPotenciaRegular();    break;
-            case 2: menuPotenciaInverso();    break;
-            case 3: menuPotenciaDeslocamento(); break;
-            case 4: menuHouseholder();        break;
-            case 5: menuJacobi();             break;
-            case 6: menuQR();                 break;
-            case 7: menuSVD();                break;
+            case 1:
+                menuPotenciaRegular();
+                break;
+            case 2:
+                menuPotenciaInverso();
+                break;
+            case 3:
+                menuPotenciaDeslocamento();
+                break;
+            case 4:
+                menuHouseholder();
+                break;
+            case 5:
+                menuJacobi();
+                break;
+            case 6:
+                menuQR();
+                break;
+            case 7:
+                menuSVD();
+                break;
             }
         }
         catch (const std::exception &e)
@@ -659,10 +640,6 @@ static void menuAutovalores()
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 }
-
-// =============================================================================
-// MÓDULO 4 — PROBLEMAS DE VALOR INICIAL (PVI)
-// =============================================================================
 
 static void printIVPResult(const nm::IVPResult &res, const std::string &solverName)
 {
@@ -738,19 +715,35 @@ static void menuPVI()
 
             double t0 = readValue<double>("  Tempo inicial (t0) = ");
             double tf = readValue<double>("  Tempo final (tf) = ");
-            double h  = readValue<double>("  Tamanho do passo (h) = ");
+            double h = readValue<double>("  Tamanho do passo (h) = ");
 
             std::unique_ptr<nm::IVPSolver> solver;
             switch (op)
             {
-            case 1: solver = std::make_unique<nm::EulerExplicit>();    break;
-            case 2: solver = std::make_unique<nm::EulerImplicit>();    break;
-            case 3: solver = std::make_unique<nm::RungeKutta2>();      break;
-            case 4: solver = std::make_unique<nm::RungeKutta3>();      break;
-            case 5: solver = std::make_unique<nm::RungeKutta4>();      break;
-            case 6: solver = std::make_unique<nm::AdamsBashforth2>();  break;
-            case 7: solver = std::make_unique<nm::AdamsBashforth3>();  break;
-            case 8: solver = std::make_unique<nm::AdamsBashforth4>();  break;
+            case 1:
+                solver = std::make_unique<nm::EulerExplicit>();
+                break;
+            case 2:
+                solver = std::make_unique<nm::EulerImplicit>();
+                break;
+            case 3:
+                solver = std::make_unique<nm::RungeKutta2>();
+                break;
+            case 4:
+                solver = std::make_unique<nm::RungeKutta3>();
+                break;
+            case 5:
+                solver = std::make_unique<nm::RungeKutta4>();
+                break;
+            case 6:
+                solver = std::make_unique<nm::AdamsBashforth2>();
+                break;
+            case 7:
+                solver = std::make_unique<nm::AdamsBashforth3>();
+                break;
+            case 8:
+                solver = std::make_unique<nm::AdamsBashforth4>();
+                break;
             }
 
             std::cout << "\n  [Executando Solver...]\n";
@@ -767,12 +760,7 @@ static void menuPVI()
     }
 }
 
-// =============================================================================
-// MÓDULO 5 — PROBLEMAS DE VALOR DE CONTORNO (PVC) — DIFERENÇAS FINITAS
-// =============================================================================
-
-/// @brief Exibe tabela 1D com comparação opcional à solução exata.
-static void printBVPResult1D(const nm::BVPResult& r, const std::string& solverName)
+static void printBVPResult1D(const nm::BVPResult &r, const std::string &solverName)
 {
     clearLine();
     std::cout << "  Solver   : " << solverName << "\n";
@@ -781,49 +769,56 @@ static void printBVPResult1D(const nm::BVPResult& r, const std::string& solverNa
               << (r.x.back() - r.x.front()) / r.n << ")\n";
     std::cout << "  Status   : " << (r.solved ? "Sistema resolvido com sucesso" : "FALHOU") << "\n\n";
 
-    if (!r.solved) { clearLine(); return; }
+    if (!r.solved)
+    {
+        clearLine();
+        return;
+    }
 
-    std::cout << "  " << std::setw(5)  << "i"
+    std::cout << "  " << std::setw(5) << "i"
               << std::setw(12) << "xi"
               << std::setw(20) << "u_aprox(xi)" << "\n";
     std::cout << "  " << std::string(37, '-') << "\n";
 
     for (int i = 0; i <= r.n; ++i)
-        std::cout << "  " << std::setw(5)  << i
+        std::cout << "  " << std::setw(5) << i
                   << std::setw(12) << std::fixed << std::setprecision(6) << r.x[i]
                   << std::setw(20) << std::fixed << std::setprecision(10) << r.u[i]
                   << "\n";
     clearLine();
 }
 
-/// @brief Exibe grade 2D dos nós interiores.
-static void printBVPResult2D(const nm::BVPResult& r,
-                              const std::string& solverName,
-                              int nx, int ny)
+static void printBVPResult2D(const nm::BVPResult &r,
+                             const std::string &solverName,
+                             int nx, int ny)
 {
     clearLine();
     std::cout << "  Solver   : " << solverName << "\n";
     std::cout << "  Grade    : " << nx << " × " << ny
-              << "  →  " << (nx-1)*(ny-1) << " nós interiores\n";
+              << "  →  " << (nx - 1) * (ny - 1) << " nós interiores\n";
     std::cout << "  Status   : " << (r.solved ? "Sistema resolvido com sucesso" : "FALHOU") << "\n\n";
 
-    if (!r.solved) { clearLine(); return; }
+    if (!r.solved)
+    {
+        clearLine();
+        return;
+    }
 
     const int mx = nx - 1;
     const int my = ny - 1;
 
-    // Cabeçalho: posições xi dos nós interiores em x
     std::cout << "  u(x,y)      ";
     for (int i = 1; i <= mx; ++i)
         std::cout << std::setw(11) << std::fixed << std::setprecision(4) << r.x[i - 1];
     std::cout << "   ← x\n";
     std::cout << "  " << std::string(12 + 11 * mx, '-') << "\n";
 
-    // Linhas da grade: j de my..1 (y decrescente → grade visual intuitiva)
-    for (int j = my; j >= 1; --j) {
+    for (int j = my; j >= 1; --j)
+    {
         double yj = r.y[(j - 1) * mx];
         std::cout << "  y=" << std::fixed << std::setprecision(4) << yj << " |";
-        for (int i = 1; i <= mx; ++i) {
+        for (int i = 1; i <= mx; ++i)
+        {
             int k = (j - 1) * mx + (i - 1);
             std::cout << std::setw(11) << std::fixed << std::setprecision(6) << r.u[k];
         }
@@ -832,8 +827,7 @@ static void printBVPResult2D(const nm::BVPResult& r,
     clearLine();
 }
 
-// ─── Helper: lê uma condição de contorno (Dirichlet ou Neumann) ──────────────
-static nm::BoundaryCondition readBC(const std::string& side)
+static nm::BoundaryCondition readBC(const std::string &side)
 {
     std::cout << "\n  Condição em " << side << ":\n";
     std::cout << "    [1] Dirichlet  u(" << side << ") = valor\n";
@@ -844,7 +838,6 @@ static nm::BoundaryCondition readBC(const std::string& side)
                        : nm::BoundaryCondition::neumann(val);
 }
 
-// ─── Submenu PVC 1D ──────────────────────────────────────────────────────────
 static void menuBVP1D()
 {
     subheader("PVC 1D — Diferenças Finitas (CCs mistas D/N)");
@@ -852,18 +845,23 @@ static void menuBVP1D()
     std::cout << "  Condição em cada extremidade: Dirichlet u=valor  ou  Neumann u'=valor\n\n";
 
     double alpha = readValue<double>("  Coeficiente α (de u'') = ");
-    double beta  = readValue<double>("  Coeficiente β (de u')  = ");
+    double beta = readValue<double>("  Coeficiente β (de u')  = ");
     double gamma = readValue<double>("  Coeficiente γ (de u)   = ");
 
-    // Função f(x)
     std::cout << "\n  Função f(x) [ENTER para f ≡ 0]: ";
     std::string expr;
     std::getline(std::cin, expr);
     std::shared_ptr<nm::FunctionParser> fp;
-    if (!expr.empty()) {
+    if (!expr.empty())
+    {
         fp = std::make_shared<nm::FunctionParser>();
-        try   { fp->parse(expr); std::cout << "  → f(x) = " << expr << "\n"; }
-        catch (const std::exception& e) {
+        try
+        {
+            fp->parse(expr);
+            std::cout << "  → f(x) = " << expr << "\n";
+        }
+        catch (const std::exception &e)
+        {
             std::cout << "  [!] " << e.what() << " — usando f ≡ 0.\n";
             fp.reset();
         }
@@ -878,13 +876,13 @@ static void menuBVP1D()
     int n = readInt("\n  Divisões n (≥ 2): ", 2, 10000);
 
     nm::FDMethod1D solver(alpha, beta, gamma);
-    nm::BVPResult  res = solver.solve(fp, a, b, bcA, bcB, n);
+    nm::BVPResult res = solver.solve(fp, a, b, bcA, bcB, n);
 
-    // Exibe tipo de CC no cabeçalho do resultado
-    auto bcLabel = [](const nm::BoundaryCondition& bc, const std::string& x) {
+    auto bcLabel = [](const nm::BoundaryCondition &bc, const std::string &x)
+    {
         return (bc.type == nm::BCType::DIRICHLET)
-               ? "u(" + x + ")=" + std::to_string(bc.value)
-               : "u'(" + x + ")=" + std::to_string(bc.value);
+                   ? "u(" + x + ")=" + std::to_string(bc.value)
+                   : "u'(" + x + ")=" + std::to_string(bc.value);
     };
     clearLine();
     std::cout << "  Solver   : " << solver.name() << "\n";
@@ -896,45 +894,48 @@ static void menuBVP1D()
     std::cout << "  Status   : "
               << (res.solved ? "Sistema resolvido com sucesso" : "FALHOU") << "\n\n";
 
-    if (res.solved) {
-        std::cout << "  " << std::setw(5)  << "i"
+    if (res.solved)
+    {
+        std::cout << "  " << std::setw(5) << "i"
                   << std::setw(12) << "xi"
                   << std::setw(20) << "u_aprox(xi)" << "\n";
         std::cout << "  " << std::string(37, '-') << "\n";
         for (int i = 0; i <= res.n; ++i)
-            std::cout << "  " << std::setw(5)  << i
+            std::cout << "  " << std::setw(5) << i
                       << std::setw(12) << std::fixed << std::setprecision(6) << res.x[i]
                       << std::setw(20) << std::fixed << std::setprecision(10) << res.u[i]
                       << "\n";
     }
     clearLine();
 
-    // Comparação com solução exata (opcional)
     std::cout << "  Comparar com solução exata? [s/n]: ";
     std::string resp;
     std::getline(std::cin, resp);
-    if (resp.size() && (resp[0] == 's' || resp[0] == 'S')) {
+    if (resp.size() && (resp[0] == 's' || resp[0] == 'S'))
+    {
         std::cout << "  u_exata(x) = ";
         std::string exprE;
         std::getline(std::cin, exprE);
         auto fpE = std::make_shared<nm::FunctionParser>();
-        try {
+        try
+        {
             fpE->parse(exprE);
             clearLine();
-            std::cout << "  " << std::setw(5)  << "i"
+            std::cout << "  " << std::setw(5) << "i"
                       << std::setw(12) << "xi"
                       << std::setw(18) << "u_aprox"
                       << std::setw(18) << "u_exata"
                       << std::setw(14) << "err_rel(%)" << "\n";
             std::cout << "  " << std::string(67, '-') << "\n";
-            for (int i = 0; i <= res.n; ++i) {
-                double xi   = res.x[i];
+            for (int i = 0; i <= res.n; ++i)
+            {
+                double xi = res.x[i];
                 double ua_i = res.u[i];
                 double ue_i = fpE->eval(xi);
-                double err  = (std::abs(ue_i) > 1e-14)
-                              ? std::abs(ua_i - ue_i) / std::abs(ue_i) * 100.0
-                              : std::abs(ua_i) * 100.0;
-                std::cout << "  " << std::setw(5)  << i
+                double err = (std::abs(ue_i) > 1e-14)
+                                 ? std::abs(ua_i - ue_i) / std::abs(ue_i) * 100.0
+                                 : std::abs(ua_i) * 100.0;
+                std::cout << "  " << std::setw(5) << i
                           << std::setw(12) << std::fixed << std::setprecision(6) << xi
                           << std::setw(18) << std::setprecision(8) << ua_i
                           << std::setw(18) << std::setprecision(8) << ue_i
@@ -942,11 +943,13 @@ static void menuBVP1D()
             }
             clearLine();
         }
-        catch (const std::exception& e) { std::cout << "  [!] " << e.what() << "\n"; }
+        catch (const std::exception &e)
+        {
+            std::cout << "  [!] " << e.what() << "\n";
+        }
     }
 }
 
-// ─── Submenu PVC 2D ──────────────────────────────────────────────────────────
 static void menuBVP2D()
 {
     subheader("PVC 2D — Diferenças Finitas (Equação de Poisson)");
@@ -960,52 +963,70 @@ static void menuBVP2D()
     double ya = readValue<double>("  ya = ");
     double yb = readValue<double>("  yb = ");
 
-    // f(x,y): aceita constante numérica ou expressão em x (y ignorado)
     std::cout << "\n  f(x,y) — informe valor constante ou expressão em x\n";
     std::cout << "  [ENTER para f ≡ 0]: ";
     std::string fExpr;
     std::getline(std::cin, fExpr);
 
     std::function<double(double, double)> funcF;
-    if (fExpr.empty()) {
-        funcF = [](double, double) { return 0.0; };
-    } else {
-        // Tenta como double literal primeiro
+    if (fExpr.empty())
+    {
+        funcF = [](double, double)
+        { return 0.0; };
+    }
+    else
+    {
+
         bool isConst = false;
         double fConst = 0.0;
-        try { fConst = std::stod(fExpr); isConst = true; }
-        catch (...) {}
+        try
+        {
+            fConst = std::stod(fExpr);
+            isConst = true;
+        }
+        catch (...)
+        {
+        }
 
-        if (isConst) {
-            funcF = [fConst](double, double) { return fConst; };
+        if (isConst)
+        {
+            funcF = [fConst](double, double)
+            { return fConst; };
             std::cout << "  → f(x,y) = " << fConst << " (constante)\n";
-        } else {
+        }
+        else
+        {
             auto fpF = std::make_shared<nm::FunctionParser>();
-            try {
+            try
+            {
                 fpF->parse(fExpr);
-                funcF = [fpF](double x, double) { return fpF->eval(x); };
+                funcF = [fpF](double x, double)
+                { return fpF->eval(x); };
                 std::cout << "  → f(x,y) = " << fExpr << " (expressão em x)\n";
             }
-            catch (const std::exception& e) {
+            catch (const std::exception &e)
+            {
                 std::cout << "  [!] " << e.what() << " — usando f ≡ 0.\n";
-                funcF = [](double, double) { return 0.0; };
+                funcF = [](double, double)
+                { return 0.0; };
             }
         }
     }
 
     int nx = readInt("\n  Divisões em x (nx ≥ 2): ", 2, 200);
     int ny = readInt("  Divisões em y (ny, 0 = igual a nx): ", 0, 200);
-    if (ny == 0) ny = nx;
+    if (ny == 0)
+        ny = nx;
 
     nm::FDMethod2D solver;
-    nm::BVPResult  res = solver.solve(funcF, xa, xb, ya, yb, nx, ny);
+    nm::BVPResult res = solver.solve(funcF, xa, xb, ya, yb, nx, ny);
     printBVPResult2D(res, solver.name(), nx, ny);
 }
 
-// ─── Menu principal do módulo BVP ────────────────────────────────────────────
 static void menuBVP()
 {
-    while (true) {
+    while (true)
+    {
         header("PROBLEMAS DE VALOR DE CONTORNO (PVC) — DIFERENÇAS FINITAS");
         std::cout << "  Método: grade uniforme + diferenças centrais O(h²) + sistema LU\n\n";
         std::cout << "  [1] PVC 1D  —  α·u'' + β·u' + γ·u = f(x),  u(a)=ua, u(b)=ub\n";
@@ -1013,25 +1034,29 @@ static void menuBVP()
         std::cout << "  [0] Voltar\n";
 
         int op = readInt("\n  Opção: ", 0, 2);
-        if (op == 0) break;
+        if (op == 0)
+            break;
 
-        try {
-            switch (op) {
-            case 1: menuBVP1D(); break;
-            case 2: menuBVP2D(); break;
+        try
+        {
+            switch (op)
+            {
+            case 1:
+                menuBVP1D();
+                break;
+            case 2:
+                menuBVP2D();
+                break;
             }
         }
-        catch (const std::exception& e) {
+        catch (const std::exception &e)
+        {
             std::cout << "\n  [ERRO] " << e.what() << "\n";
         }
         std::cout << "\n  Pressione ENTER para continuar...";
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 }
-
-// =============================================================================
-// MENU PRINCIPAL
-// =============================================================================
 
 static void splash()
 {
@@ -1069,11 +1094,21 @@ int main()
         }
         switch (op)
         {
-        case 1: menuDiferenciacao(); break;
-        case 2: menuIntegracao();    break;
-        case 3: menuAutovalores();   break;
-        case 4: menuPVI();           break;
-        case 5: menuBVP();           break;
+        case 1:
+            menuDiferenciacao();
+            break;
+        case 2:
+            menuIntegracao();
+            break;
+        case 3:
+            menuAutovalores();
+            break;
+        case 4:
+            menuPVI();
+            break;
+        case 5:
+            menuBVP();
+            break;
         }
     }
     return 0;

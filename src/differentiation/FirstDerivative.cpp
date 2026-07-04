@@ -1,6 +1,3 @@
-// =============================================================================
-// FirstDerivative.cpp
-// =============================================================================
 #include "differentiation/FirstDerivative.hpp"
 
 namespace nm
@@ -57,54 +54,44 @@ namespace nm
         return "desconhecido";
     }
 
-    // ---- Implementações das fórmulas -------------------------------------------
-
-    // f'(xi) ≈ [f(xi+1) - f(xi)] / h
     double FirstDerivative::forward2(double x, double h) const
     {
         return (f(x, 1, h) - f(x, 0, h)) / h;
     }
 
-    // f'(xi) ≈ [-f(xi+2) + 4f(xi+1) - 3f(xi)] / (2h)
     double FirstDerivative::forward3(double x, double h) const
     {
         return (-f(x, 2, h) + 4.0 * f(x, 1, h) - 3.0 * f(x, 0, h)) / (2.0 * h);
     }
 
-    // f'(xi) ≈ [2f(xi+3) - 9f(xi+2) + 18f(xi+1) - 11f(xi)] / (6h)
     double FirstDerivative::forward4(double x, double h) const
     {
         return (2.0 * f(x, 3, h) - 9.0 * f(x, 2, h) + 18.0 * f(x, 1, h) - 11.0 * f(x, 0, h)) / (6.0 * h);
     }
 
-    // f'(xi) ≈ [f(xi) - f(xi-1)] / h
     double FirstDerivative::backward2(double x, double h) const
     {
         return (f(x, 0, h) - f(x, -1, h)) / h;
     }
 
-    // f'(xi) ≈ [3f(xi) - 4f(xi-1) + f(xi-2)] / (2h)
     double FirstDerivative::backward3(double x, double h) const
     {
         return (3.0 * f(x, 0, h) - 4.0 * f(x, -1, h) + f(x, -2, h)) / (2.0 * h);
     }
 
-    // f'(xi) ≈ [11f(xi) - 18f(xi-1) + 9f(xi-2) - 2f(xi-3)] / (6h)
     double FirstDerivative::backward4(double x, double h) const
     {
         return (11.0 * f(x, 0, h) - 18.0 * f(x, -1, h) + 9.0 * f(x, -2, h) - 2.0 * f(x, -3, h)) / (6.0 * h);
     }
 
-    // f'(xi) ≈ [f(xi+1) - f(xi-1)] / (2h)
     double FirstDerivative::central2(double x, double h) const
     {
         return (f(x, 1, h) - f(x, -1, h)) / (2.0 * h);
     }
 
-    // f'(xi) ≈ [-f(xi+2) + 8f(xi+1) - 8f(xi-1) + f(xi-2)] / (12h)
     double FirstDerivative::central4(double x, double h) const
     {
         return (-f(x, 2, h) + 8.0 * f(x, 1, h) - 8.0 * f(x, -1, h) + f(x, -2, h)) / (12.0 * h);
     }
 
-} // namespace nm
+}

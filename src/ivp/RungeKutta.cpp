@@ -1,13 +1,9 @@
-// =============================================================================
-// RungeKutta.cpp
-// =============================================================================
 #include "ivp/RungeKutta.hpp"
 #include <cmath>
 
 namespace nm
 {
 
-    // ── Utilitário local: combina dois vetores ─────────────────────────────────
     static std::vector<double> add3(const std::vector<double> &a,
                                     double c1, const std::vector<double> &b1,
                                     double c2, const std::vector<double> &b2)
@@ -32,15 +28,12 @@ namespace nm
         return r;
     }
 
-    // ============================================================
-    //  RK2 — Heun
-    // ============================================================
     std::vector<double> RungeKutta2::step(const SystemParser &F,
                                           const std::vector<double> &y,
                                           double t, double dt) const
     {
         auto k1 = F.eval(y, t);
-        auto yEst = IVPSolver::axpy(y, dt, k1); // Si + dt·k1
+        auto yEst = IVPSolver::axpy(y, dt, k1);
         auto k2 = F.eval(yEst, t + dt);
         return add3(y, dt / 2.0, k1, dt / 2.0, k2);
     }
@@ -73,22 +66,19 @@ namespace nm
         return res;
     }
 
-    // ============================================================
-    //  RK3 — Kutta (Simpson 1/3)
-    // ============================================================
     std::vector<double> RungeKutta3::step(const SystemParser &F,
                                           const std::vector<double> &y,
                                           double t, double dt) const
     {
-        // k1 = F(yi, ti)
+
         auto k1 = F.eval(y, t);
-        // k2 = F(yi + (dt/2)·k1, ti + dt/2)
+
         auto yHalf = IVPSolver::axpy(y, dt / 2.0, k1);
         auto k2 = F.eval(yHalf, t + dt / 2.0);
-        // k3 = F(yi + dt·(-k1 + 2·k2), ti + dt)   [predictor de Kutta]
+
         auto yFull = add3(y, -dt, k1, 2.0 * dt, k2);
         auto k3 = F.eval(yFull, t + dt);
-        // S_{i+1} = yi + (dt/6)·(k1 + 4·k2 + k3)
+
         int n = (int)y.size();
         std::vector<double> r(n);
         for (int i = 0; i < n; ++i)
@@ -124,9 +114,6 @@ namespace nm
         return res;
     }
 
-    // ============================================================
-    //  RK4 — Clássico
-    // ============================================================
     std::vector<double> RungeKutta4::step(const SystemParser &F,
                                           const std::vector<double> &y,
                                           double t, double dt) const
@@ -166,4 +153,4 @@ namespace nm
         return res;
     }
 
-} // namespace nm
+}

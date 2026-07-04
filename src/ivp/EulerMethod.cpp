@@ -1,15 +1,9 @@
-// =============================================================================
-// EulerMethod.cpp
-// =============================================================================
 #include "ivp/EulerMethod.hpp"
 #include <cmath>
 
 namespace nm
 {
 
-    // ============================================================
-    //  Euler Explícito
-    // ============================================================
     IVPResult EulerExplicit::solve(const SystemParser &F,
                                    const std::vector<double> &y0,
                                    double t0, double tEnd, double dt,
@@ -29,7 +23,6 @@ namespace nm
         {
             double dtEff = std::min(dt, tEnd - t);
 
-            // S_{i+1} = S_i + dt * F(S_i, t_i)
             auto f = F.eval(y, t);
             y = axpy(y, dtEff, f);
             t += dtEff;
@@ -44,9 +37,6 @@ namespace nm
         return res;
     }
 
-    // ============================================================
-    //  Euler Implícito  (iteração de ponto fixo)
-    // ============================================================
     IVPResult EulerImplicit::solve(const SystemParser &F,
                                    const std::vector<double> &y0,
                                    double t0, double tEnd, double dt,
@@ -67,11 +57,9 @@ namespace nm
             double dtEff = std::min(dt, tEnd - t);
             double tNext = t + dtEff;
 
-            // Chute inicial: Euler explícito
             auto fi = F.eval(y, t);
             auto yNew = axpy(y, dtEff, fi);
 
-            // Iteração de ponto fixo
             for (int iter = 0; iter < maxIter_; ++iter)
             {
                 auto yPrev = yNew;
@@ -95,4 +83,4 @@ namespace nm
         return res;
     }
 
-} // namespace nm
+}

@@ -1,6 +1,4 @@
-// Métodos Numéricos II, Unidade 01
-// Atividade de Processamento de Imagens
-// Uso: ./image_processor entrada.png saida_sobel.png saida_laplace.png [threshold=35.0] [tolerancia=0.0001]
+
 
 #include <vector>
 #include <string>
@@ -9,7 +7,6 @@
 #include <iostream>
 #include <stdexcept>
 
-// Implementação das bibliotecas STB para imagens reais
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -31,7 +28,6 @@ struct Image
     }
 };
 
-// ---------- Leitura/Escrita usando STB Image ----------
 Image readRealImage(const std::string &path)
 {
     int width, height, channels;
@@ -63,7 +59,6 @@ Image readRealImage(const std::string &path)
     return img;
 }
 
-// Escreve PNG em tons de cinza.
 void writeRealImage(const std::string &path, const Image &img, bool binary = false)
 {
     std::vector<unsigned char> out_pixels(static_cast<size_t>(img.width) * img.height);
@@ -90,7 +85,6 @@ void writeRealImage(const std::string &path, const Image &img, bool binary = fal
     }
 }
 
-// ---------- Convolução genérica 3x3 (borda: clamp de índice) ----------
 Image convolve3x3(const Image &src, const double k[3][3])
 {
     Image dst = src;
@@ -118,7 +112,6 @@ Image convolve3x3(const Image &src, const double k[3][3])
     return dst;
 }
 
-// ---------- Kernels ----------
 void gaussianKernel(double k[3][3])
 {
     double base[3][3] = {{1, 2, 1}, {2, 4, 2}, {1, 2, 1}};
@@ -151,7 +144,6 @@ void laplaceKernel(double k[3][3])
             k[i][j] = base[i][j];
 }
 
-// ---------- Algoritmo 1: Gradiente de Sobel ----------
 Image alg1_sobel(const Image &original, double threshold)
 {
     double gK[3][3], sx[3][3], sy[3][3];
@@ -192,7 +184,6 @@ Image alg1_sobel(const Image &original, double threshold)
     return D;
 }
 
-// ---------- Algoritmo 2: Laplaciano da Gaussiana ----------
 Image alg2_laplace(const Image &original, double tolerance)
 {
     double gK[3][3], lK[3][3];

@@ -1,12 +1,5 @@
 #pragma once
-// =============================================================================
-// SecondDerivative.hpp
-// Aproximações de diferenças finitas para a segunda derivada f''(xi).
-//
-// Métodos implementados:
-//   Central 3pt: [f(xi+1) - 2f(xi) + f(xi-1)] / h²
-//   Central 5pt: [-f(xi+2) + 16f(xi+1) - 30f(xi) + 16f(xi-1) - f(xi-2)] / (12h²)
-// =============================================================================
+
 #include "differentiation/Differentiator.hpp"
 
 namespace nm
@@ -14,8 +7,8 @@ namespace nm
 
     enum class SecondDerivMethod
     {
-        CENTRAL_3PT, ///< O(h²)
-        CENTRAL_5PT  ///< O(h⁴)
+        CENTRAL_3PT,
+        CENTRAL_5PT
     };
 
     class SecondDerivative : public Differentiator
@@ -35,4 +28,4 @@ namespace nm
         double central5(double x, double h) const;
     };
 
-} // namespace nm
+} 
