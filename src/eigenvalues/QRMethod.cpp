@@ -80,22 +80,6 @@ namespace nm
             Matrix Q, R;
             qrDecompose(Ak, Q, R);
 
-            if (iter == 1)
-            {
-                std::cout << "\n=== Primeira iteração QR ===\n";
-
-                std::cout << "\nMatriz Q1:\n";
-                Q.print();
-
-                std::cout << "\nMatriz R1:\n";
-                R.print();
-
-                Matrix T1 = R * Q;
-
-                std::cout << "\nT(1) = R1 * Q1:\n";
-                T1.print();
-            }
-
             Ak = R * Q;
             V = V * Q;
 
