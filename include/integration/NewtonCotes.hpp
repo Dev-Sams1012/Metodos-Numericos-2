@@ -11,9 +11,12 @@ namespace nm
         TRAPEZOID,
         SIMPSON_1_3,
         SIMPSON_3_8,
+        BOOLE,
 
         OPEN_TRAPEZOID,
-        MILNE
+        MILNE,
+        OPEN_DEGREE3,
+        OPEN_DEGREE4
     };
 
     class NewtonCotes : public Integrator

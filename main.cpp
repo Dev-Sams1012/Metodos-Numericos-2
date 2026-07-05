@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -284,11 +282,12 @@ static void menuDiferenciacao()
 static void menuNewtonCotesFechado()
 {
     subheader("Newton-Cotes Fechado");
-    std::cout << "  [1] Regra do Trapézio\n";
-    std::cout << "  [2] Simpson 1/3\n";
-    std::cout << "  [3] Simpson 3/8\n";
-    int choice = readInt("\n  Escolha: ", 1, 3);
-    NewtonCotesMethod methods[] = {NewtonCotesMethod::TRAPEZOID, NewtonCotesMethod::SIMPSON_1_3, NewtonCotesMethod::SIMPSON_3_8};
+    std::cout << "  [1] Regra do Trapézio (grau 1)\n";
+    std::cout << "  [2] Simpson 1/3 (grau 2)\n";
+    std::cout << "  [3] Simpson 3/8 (grau 3)\n";
+    std::cout << "  [4] Regra de Boole (grau 4)\n";
+    int choice = readInt("\n  Escolha: ", 1, 4);
+    NewtonCotesMethod methods[] = {NewtonCotesMethod::TRAPEZOID, NewtonCotesMethod::SIMPSON_1_3, NewtonCotesMethod::SIMPSON_3_8, NewtonCotesMethod::BOOLE};
 
     std::cout << "\n  Digite a função f(x):\n";
     auto fp = readFunction1D();
@@ -303,10 +302,13 @@ static void menuNewtonCotesFechado()
 static void menuNewtonCotesAberto()
 {
     subheader("Newton-Cotes Aberto");
-    std::cout << "  [1] Trapézio Aberto\n";
-    std::cout << "  [2] Regra de Milne\n";
-    int choice = readInt("\n  Escolha: ", 1, 2);
-    NewtonCotesMethod m = (choice == 1) ? NewtonCotesMethod::OPEN_TRAPEZOID : NewtonCotesMethod::MILNE;
+    std::cout << "  [1] Trapézio Aberto (grau 1)\n";
+    std::cout << "  [2] Regra de Milne (grau 2)\n";
+    std::cout << "  [3] Aberta grau 3 (4 pontos)\n";
+    std::cout << "  [4] Aberta grau 4 (5 pontos)\n";
+    int choice = readInt("\n  Escolha: ", 1, 4);
+    NewtonCotesMethod methodsOpen[] = {NewtonCotesMethod::OPEN_TRAPEZOID, NewtonCotesMethod::MILNE, NewtonCotesMethod::OPEN_DEGREE3, NewtonCotesMethod::OPEN_DEGREE4};
+    NewtonCotesMethod m = methodsOpen[choice - 1];
 
     std::cout << "\n  Digite a função f(x):\n";
     auto fp = readFunction1D();
@@ -336,7 +338,7 @@ static void menuGaussLegendre()
 
 static void menuGaussEspecial()
 {
-    subheader("Quadraturas Especiais de Gauss (5 pontos)");
+    subheader("Quadraturas Especiais de Gauss");
     std::cout << "  [1] Gauss-Hermite   — ∫_{-∞}^{+∞} e^{-x²} f(x) dx\n";
     std::cout << "  [2] Gauss-Laguerre  — ∫_{0}^{+∞}  e^{-x}  f(x) dx\n";
     std::cout << "  [3] Gauss-Chebyshev — ∫_{-1}^{1}  f(x)/√(1-x²) dx\n";
@@ -344,7 +346,12 @@ static void menuGaussEspecial()
     SpecialGaussType types[] = {SpecialGaussType::HERMITE, SpecialGaussType::LAGUERRE, SpecialGaussType::CHEBYSHEV};
 
     int n = 5;
-    if (choice == 3)
+    if (choice == 1 || choice == 2)
+    {
+        std::cout << "  Número de pontos n = 2, 3, 4 ou 5\n";
+        n = readInt("  n = ", 2, 5);
+    }
+    else
     {
         std::cout << "  Número de pontos de Chebyshev (1-20): ";
         n = readInt("", 1, 20);
@@ -385,10 +392,10 @@ static void menuIntegracao()
     while (true)
     {
         header("INTEGRAÇÃO NUMÉRICA");
-        std::cout << "  [1] Newton-Cotes Fechado (Trapézio, Simpson)\n";
-        std::cout << "  [2] Newton-Cotes Aberto  (Trapézio Aberto, Milne)\n";
+        std::cout << "  [1] Newton-Cotes Fechado (graus 1 a 4)\n";
+        std::cout << "  [2] Newton-Cotes Aberto  (graus 1 a 4)\n";
         std::cout << "  [3] Gauss-Legendre       (n = 2..5)\n";
-        std::cout << "  [4] Gauss Especial       (Hermite / Laguerre / Chebyshev)\n";
+        std::cout << "  [4] Gauss Especial       (Hermite / Laguerre n=2..5, Chebyshev n=1..20)\n";
         std::cout << "  [5] Singularidades       (Exp. Simples / Dupla)\n";
         std::cout << "  [0] Voltar\n";
 
