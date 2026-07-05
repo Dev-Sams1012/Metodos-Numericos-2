@@ -66,18 +66,24 @@ static void subheader(const std::string &title)
 template <typename T>
 T readValue(const std::string &prompt)
 {
-    T value{};
     while (true)
     {
         std::cout << prompt;
-        std::string line;
-        std::getline(std::cin, line);
-        std::istringstream iss(line);
-        if (iss >> value)
-            break;
-        std::cout << "  [!] Entrada inválida. Tente novamente.\n";
+
+        std::string expr;
+        std::getline(std::cin, expr);
+
+        try
+        {
+            FunctionParser fp;
+            fp.parse(expr);
+            return fp.eval(0.0);
+        }
+        catch (...)
+        {
+            std::cout << "  [!] Entrada inválida. Tente novamente.\n";
+        }
     }
-    return value;
 }
 
 static std::string readString(const std::string &prompt)
