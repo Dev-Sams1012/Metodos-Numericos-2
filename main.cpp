@@ -898,28 +898,12 @@ static void menuBVP1D()
                    : "u'(" + x + ")=" + std::to_string(bc.value);
     };
     clearLine();
-    std::cout << "  Solver   : " << solver.name() << "\n";
     std::cout << "  CC esq.  : " << bcLabel(bcA, "a") << "\n";
     std::cout << "  CC dir.  : " << bcLabel(bcB, "b") << "\n";
-    std::cout << "  Divisões : n = " << res.n
-              << "   (h = " << std::fixed << std::setprecision(6)
-              << (res.x.back() - res.x.front()) / res.n << ")\n";
-    std::cout << "  Status   : "
-              << (res.solved ? "Sistema resolvido com sucesso" : "FALHOU") << "\n\n";
+    printBVPResult1D(res, solver.name());
 
-    if (res.solved)
-    {
-        std::cout << "  " << std::setw(5) << "i"
-                  << std::setw(12) << "xi"
-                  << std::setw(20) << "u_aprox(xi)" << "\n";
-        std::cout << "  " << std::string(37, '-') << "\n";
-        for (int i = 0; i <= res.n; ++i)
-            std::cout << "  " << std::setw(5) << i
-                      << std::setw(12) << std::fixed << std::setprecision(6) << res.x[i]
-                      << std::setw(20) << std::fixed << std::setprecision(10) << res.u[i]
-                      << "\n";
-    }
-    clearLine();
+    if (!res.solved)
+        return;
 
     std::cout << "  Comparar com solução exata? [s/n]: ";
     std::string resp;
